@@ -56,9 +56,6 @@ body{
 
 /* =========================
    STARFIELD BACKGROUND
-   ⚠️ ئەستێرەکان لەناو .bg-stars دان
-   ⚠️ position:absolute نەک fixed
-   ⚠️ ناڕەسم کرێنەوە لە کاتی سکڕۆڵ
 ========================= */
 
 .bg-stars{
@@ -951,12 +948,11 @@ body{
 
 /* ==========================================
    MOBILE PERFORMANCE FIX
-   تەنها لە مۆبایل و تابلێت کار دەکات
 ========================================== */
 
 @media (max-width:1024px), (hover:none) and (pointer:coarse){
 
-    /* 1. لابردنی backdrop-filter — گەورەترین هۆکار */
+    /* 1. لابردنی backdrop-filter */
     .link,
     .bottom a{
         backdrop-filter:none !important;
@@ -988,7 +984,7 @@ body{
         box-shadow:0 15px 40px rgba(0,0,0,.5) !important;
     }
 
-    /* 5. ئەستێرەکان: تەنها یەک layer + جێگیر (fixed) بەڵام ناڕەسم کرێنەوە */
+    /* 5. تەنها یەک layer ی ئەستێرە */
     .bg-stars::after{
         display:none !important;
     }
@@ -999,7 +995,7 @@ body{
         background-size:900px 450px !important;
     }
 
-    /* 6. لابردنی will-change لەسەر shine بۆ کەمکردنەوەی memory */
+    /* 6. لابردنی will-change */
     .link::before,
     .name::after{
         will-change:auto !important;
@@ -1038,6 +1034,97 @@ body{
     /* 10. filter ی سووکتر بۆ وێنە */
     .hero img{
         filter:brightness(.82) !important;
+    }
+}
+
+/* ==========================================
+   FIX — ACTIVE COLOR ON MOBILE
+   ڕەنگی پلاتفۆرم لە مۆبایل کار بکات
+========================================== */
+
+@media (max-width:1024px), (hover:none) and (pointer:coarse){
+
+    /* Facebook active */
+    .link.active.facebook{
+        background:linear-gradient(135deg,rgba(24,119,242,.28),rgba(24,119,242,.12)) !important;
+        border-color:rgba(24,119,242,.55) !important;
+    }
+    .link.active.facebook .link-icon{
+        background:#1877F2 !important;
+        border-color:#1877F2 !important;
+        box-shadow:0 8px 28px rgba(24,119,242,.45) !important;
+    }
+
+    /* Instagram active */
+    .link.active.instagram{
+        background:linear-gradient(135deg,rgba(131,58,180,.28),rgba(253,29,29,.18),rgba(252,175,69,.16)) !important;
+        border-color:rgba(225,48,108,.55) !important;
+    }
+    .link.active.instagram .link-icon{
+        background:linear-gradient(135deg,#833AB4,#FD1D1D,#FCAF45) !important;
+        border-color:transparent !important;
+        box-shadow:0 8px 28px rgba(225,48,108,.42) !important;
+    }
+
+    /* Snapchat active */
+    .link.active.snapchat{
+        background:linear-gradient(135deg,rgba(255,252,0,.22),rgba(255,252,0,.09)) !important;
+        border-color:rgba(255,252,0,.55) !important;
+    }
+    .link.active.snapchat .link-icon{
+        background:#FFFC00 !important;
+        color:#000 !important;
+        border-color:#FFFC00 !important;
+        box-shadow:0 8px 28px rgba(255,252,0,.35) !important;
+    }
+
+    /* WhatsApp active */
+    .link.active.whatsapp{
+        background:linear-gradient(135deg,rgba(37,211,102,.28),rgba(37,211,102,.12)) !important;
+        border-color:rgba(37,211,102,.55) !important;
+    }
+    .link.active.whatsapp .link-icon{
+        background:#25D366 !important;
+        border-color:#25D366 !important;
+        box-shadow:0 8px 28px rgba(37,211,102,.38) !important;
+    }
+
+    /* TikTok active */
+    .link.active.tiktok{
+        background:linear-gradient(135deg,rgba(0,242,234,.18),rgba(255,0,80,.14)) !important;
+        border-color:rgba(0,242,234,.55) !important;
+    }
+    .link.active.tiktok .link-icon{
+        background:#050505 !important;
+        border-color:#00f2ea !important;
+        color:#fff !important;
+        box-shadow:-3px 0 0 rgba(255,0,80,.65),3px 0 0 rgba(0,242,234,.65),0 8px 28px rgba(0,242,234,.22) !important;
+    }
+
+    /* Website active */
+    .bottom a.active.website{
+        background:linear-gradient(135deg,rgba(120,120,255,.28),rgba(120,120,255,.12)) !important;
+        border-color:rgba(120,120,255,.55) !important;
+        box-shadow:0 14px 35px rgba(120,120,255,.22) !important;
+    }
+    .bottom a.active.website i{
+        color:#8f8fff !important;
+    }
+
+    /* Telegram active */
+    .bottom a.active.telegram{
+        background:linear-gradient(135deg,rgba(0,136,204,.28),rgba(0,136,204,.12)) !important;
+        border-color:rgba(0,136,204,.6) !important;
+        box-shadow:0 14px 35px rgba(0,136,204,.28) !important;
+    }
+    .bottom a.active.telegram i{
+        color:#29b6f6 !important;
+    }
+
+    /* ⚠️ گرنگ: hover دەبێت active تێکنەشکێنێت */
+    .link.active:hover,
+    .bottom a.active:hover{
+        transform:none !important;
     }
 }
 
@@ -1255,10 +1342,13 @@ linkCards.forEach(card => {
 
     card.addEventListener("click", function(){
 
+        /* لابردنی active لە هەموو کارتەکان + blur بۆ لابردنی hover لە مۆبایل */
         linkCards.forEach(item => {
             item.classList.remove("active");
+            item.blur();
         });
 
+        /* زیادکردنی active بۆ ئەم کارتە */
         this.classList.add("active");
 
     });
@@ -1277,10 +1367,13 @@ bottomButtons.forEach(btn => {
 
     btn.addEventListener("click", function(){
 
+        /* لابردنی active لە هەموو دوگمەکان + blur */
         bottomButtons.forEach(item => {
             item.classList.remove("active");
+            item.blur();
         });
 
+        /* زیادکردنی active بۆ ئەم دوگمەیە */
         this.classList.add("active");
 
     });
