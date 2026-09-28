@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 
 <title>Zhyar | Personal Links</title>
 
@@ -49,6 +49,9 @@ body{
     padding:28px 14px 45px;
 
     overflow-x:hidden;
+
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
 }
 
 /* =========================
@@ -64,7 +67,13 @@ body::after{
     height:200%;
     pointer-events:none;
     z-index:0;
-    will-change:transform, opacity;
+
+    transform:translateZ(0);
+    backface-visibility:hidden;
+    -webkit-backface-visibility:hidden;
+
+    will-change:transform;
+    contain:strict;
 }
 
 /* Layer 1 — Small bright stars */
@@ -88,7 +97,7 @@ body::before{
         radial-gradient(1.8px 1.8px at 920px 380px, rgba(255,255,255,1), transparent 60%);
     background-size:1100px 550px;
     background-repeat:repeat;
-    animation:starDrift1 200s linear infinite, twinkle1 4s ease-in-out infinite alternate;
+    animation:starDrift1 200s linear infinite;
     opacity:.95;
 }
 
@@ -108,7 +117,7 @@ body::after{
         radial-gradient(2.5px 2.5px at 1000px 520px, rgba(255,255,255,.95), transparent 60%);
     background-size:1300px 600px;
     background-repeat:repeat;
-    animation:starDrift2 260s linear infinite, twinkle2 5s ease-in-out infinite alternate;
+    animation:starDrift2 260s linear infinite;
     opacity:.85;
 }
 
@@ -120,18 +129,6 @@ body::after{
 @keyframes starDrift2{
     from{ transform:translate3d(0,0,0); }
     to{ transform:translate3d(-1300px,0,0); }
-}
-
-@keyframes twinkle1{
-    0%{ opacity:.75; }
-    50%{ opacity:1; }
-    100%{ opacity:.85; }
-}
-
-@keyframes twinkle2{
-    0%{ opacity:.6; }
-    50%{ opacity:1; }
-    100%{ opacity:.7; }
 }
 
 /* MAIN */
@@ -169,6 +166,11 @@ body::after{
         0 0 0 1px rgba(255,255,255,.03);
 
     animation:heroIn .8s ease;
+
+    contain:layout style paint;
+    transform:translateZ(0);
+    backface-visibility:hidden;
+    -webkit-backface-visibility:hidden;
 }
 
 .hero img{
@@ -179,7 +181,7 @@ body::after{
 
     display:block;
 
-    transform:scale(1.015);
+    transform:scale(1.015) translateZ(0);
 
     filter:
         brightness(.82)
@@ -187,10 +189,13 @@ body::after{
         saturate(1.04);
 
     transition:transform 1s ease;
+
+    backface-visibility:hidden;
+    -webkit-backface-visibility:hidden;
 }
 
 .hero:hover img{
-    transform:scale(1.045);
+    transform:scale(1.045) translateZ(0);
 }
 
 .hero::after{
@@ -269,7 +274,7 @@ body::after{
     content:"";
     position:absolute;
     top:0;
-    left:-150%;
+    left:0;
     width:60%;
     height:100%;
     background:linear-gradient(
@@ -280,22 +285,23 @@ body::after{
         rgba(0,0,0,.85),
         transparent
     );
-    transform:skewX(-25deg);
+    transform:translateX(-250%) skewX(-25deg);
     animation:blackShine 3.2s ease-in-out infinite;
     pointer-events:none;
     mix-blend-mode:multiply;
     border-radius:4px;
+    will-change:transform;
 }
 
 @keyframes blackShine{
     0%{
-        left:-150%;
+        transform:translateX(-250%) skewX(-25deg);
     }
     60%{
-        left:150%;
+        transform:translateX(420%) skewX(-25deg);
     }
     100%{
-        left:150%;
+        transform:translateX(420%) skewX(-25deg);
     }
 }
 
@@ -352,6 +358,12 @@ body::after{
         background .3s ease;
 
     animation:cardIn .6s ease both;
+
+    contain:layout style paint;
+    isolation:isolate;
+    transform:translateZ(0);
+    backface-visibility:hidden;
+    -webkit-backface-visibility:hidden;
 }
 
 .link:nth-child(1){ animation-delay:.08s; }
@@ -366,7 +378,7 @@ body::after{
     position:absolute;
 
     top:0;
-    left:-120%;
+    left:0;
 
     width:80%;
     height:100%;
@@ -379,17 +391,19 @@ body::after{
             transparent
         );
 
-    transform:skewX(-20deg);
+    transform:translateX(-150%) skewX(-20deg);
 
-    transition:.7s ease;
+    transition:transform .7s ease;
+
+    will-change:transform;
 }
 
 .link:hover::before{
-    left:130%;
+    transform:translateX(280%) skewX(-20deg);
 }
 
 .link:hover{
-    transform:translateY(-3px);
+    transform:translateY(-3px) translateZ(0);
 
     border-color:rgba(255,255,255,.24);
 
@@ -423,11 +437,11 @@ body::after{
 
     margin-right:13px;
 
-    transition:.3s ease;
+    transition:transform .3s ease, background .3s ease;
 }
 
 .link:hover .link-icon{
-    transform:scale(1.07);
+    transform:scale(1.07) translateZ(0);
 
     background:rgba(255,255,255,.13);
 }
@@ -476,13 +490,13 @@ body::after{
 
     background:rgba(255,255,255,.05);
 
-    transition:.3s ease;
+    transition:transform .3s ease, color .3s ease, background .3s ease;
 }
 
 .link:hover .arrow{
     color:white;
 
-    transform:translateX(3px);
+    transform:translateX(3px) translateZ(0);
 
     background:rgba(255,255,255,.11);
 }
@@ -589,13 +603,19 @@ body::after{
 
     font-weight:600;
 
-    transition:.3s ease;
+    transition:transform .3s ease, background .3s ease, border-color .3s ease;
 
     white-space:nowrap;
+
+    contain:layout style paint;
+    isolation:isolate;
+    transform:translateZ(0);
+    backface-visibility:hidden;
+    -webkit-backface-visibility:hidden;
 }
 
 .bottom a:hover{
-    transform:translateY(-3px);
+    transform:translateY(-3px) translateZ(0);
 
     background:rgba(255,255,255,.10);
 
@@ -638,6 +658,9 @@ body::after{
     font-size:11px;
 
     letter-spacing:.5px;
+
+    content-visibility:auto;
+    contain-intrinsic-size:50px;
 }
 
 /* =========================
